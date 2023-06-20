@@ -1,9 +1,10 @@
-def SeedBankC():
-    Plants = int(input("Enter the number of active individuals: "))
-    Seeds = int(input("Enter the number of inactive individuals: "))
-    iterations = int(input("Enter the number of iterations: "))
-    C_1 = 1 = int(input("Enter c_1: "))
-    C_2 = 1 = int(input("Enter c_2 "))
+import pandas as pd
+import numpy as np
+from scipy.stats import expon
+import time
+from tqdm import tqdm 
+
+def SeedBankC(Plants,Seeds,C_1,C_2,iterations):
     NGamma = []
     MGamma = []
     TGamma = []
@@ -95,12 +96,13 @@ def SeedBankC():
         TTheta.append(Time)     
     pbar.close()
     
-    df = pd.DataFrame()
-    df["NGamma"] = NGamma
-    df["MGamma"] = MGamma
-    df["TGamma"] = TGamma
-    df["NTheta"] = NTheta
-    df["MTheta"] = MTheta
-    df["TTheta"] = TTheta
+    SeedBank = pd.DataFrame()
+    SeedBank["NGamma"] = NGamma
+    SeedBank["MGamma"] = MGamma
+    SeedBank["TGamma"] = TGamma
+    SeedBank["NTheta"] = NTheta
+    SeedBank["MTheta"] = MTheta
+    SeedBank["TTheta"] = TTheta
     
-    df.to_csv(str(Plants)+'P'+str(Seeds)+'S'+'SeedBank.csv', index = False)
+    SeedBank.to_csv(str(Plants)+'P'+str(Seeds)+'S'+'SeedBank.csv', index = False)
+    return(SeedBank)

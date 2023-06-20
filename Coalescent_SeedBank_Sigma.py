@@ -1,10 +1,13 @@
-def SeedBankCSigma():
-    Plants = int(input("Enter the number of active individuals: "))
-    Seeds = int(input("Enter the number of inactive individuals: "))
-    iterations = int(input("Enter the number of iterations: "))
-    
-    C_1 = int(input("Enter c_1: "))
-    C_2 =int(input("Enter c_2: "))1
+
+import pandas as pd
+import numpy as np
+from scipy.stats import expon
+import time
+from tqdm import tqdm 
+
+
+
+def SeedBankCSigma(Plants,Seeds,C_1,C_2,iterations):
     
     NGamma = list()
     MGamma = list()
@@ -162,14 +165,15 @@ def SeedBankCSigma():
         
     pbar.close()
     
-    df=pd.DataFrame()
-    df["NGamma"] = NGamma
-    df["MGamma"] = MGamma
-    df["TGamma"] = TGamma
-    df["NTheta"] = NTheta
-    df["MTheta"] = MTheta
-    df["TTheta"] = TTheta
-    df["Nsigma"] = NSigma
-    df["Msigma"] = MSigma
-    df["TSigma"] = TSigma
-    df.to_csv(str(Plants)+"P"+str(Seeds)+"S"+'SeedBankSigma.csv', index = False)
+    SeedBankSigma=pd.DataFrame()
+    SeedBankSigma["NGamma"] = NGamma
+    SeedBankSigma["MGamma"] = MGamma
+    SeedBankSigma["TGamma"] = TGamma
+    SeedBankSigma["NTheta"] = NTheta
+    SeedBankSigma["MTheta"] = MTheta
+    SeedBankSigma["TTheta"] = TTheta
+    SeedBankSigma["Nsigma"] = NSigma
+    SeedBankSigma["Msigma"] = MSigma
+    SeedBankSigma["TSigma"] = TSigma
+    SeedBankSigma.to_csv(str(Plants)+"P"+str(Seeds)+"S"+'SeedBankSigma.csv', index = False)
+    return(SeedBankSigma)

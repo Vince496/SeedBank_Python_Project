@@ -1,13 +1,11 @@
-def SeedBankCProcess():
-    Plants = int(input("Enter the number of active individuals: "))
-    Seeds = int(input("Enter the number of inactive individuals: "))
+import pandas as pd
+import numpy as np
+from scipy.stats import expon
+
+def SeedBankCProcess(Plants,Seeds,C_1,C_2):
     i = Plants
     j = Seeds
-    C_1 =  int(input("Enter c_1: "))
-    C_2 = int(input("Enter c_2: "))
     
-    N = list()
-    M = list()
     Actives = list()
     Inactives = list()
     Times = list()
@@ -59,7 +57,7 @@ def SeedBankCProcess():
                 i += 1
                 j -= 1
                 Times.append(ATime)
-                Events.append("Activación")
+                Events.append("Activation")
         else:
             if i == 1:
                 break
@@ -71,21 +69,20 @@ def SeedBankCProcess():
                 if DTime > CTime:
                     i -= 1
                     Times.append(CTime)
-                    Events.append("Coalescencia")
+                    Events.append("Coalescence")
                 else:
                     i -= 1
                     j += 1
                     Times.append(DTime)
-                    Events.append("Desactivación")
+                    Events.append("Deactivation")
         Actives.append(i)
         Inactives.append(j)
     
     
-    df = pd.DataFrame()
-    df["N"] = Actives
-    df["M"] = Inactives
-    df["Tiempos"] = Times
-    df["Ocurrencia"] = Events
-    
-    df.to_csv(str(Plants)+'P'+str(Seeds)+'S_Seed-Bank_Process.csv', index = False)
-    
+    SeedBankProcess = pd.DataFrame()
+    SeedBankProcess["N(t)"] = Actives
+    SeedBankProcess["M(t)"] = Inactives
+    SeedBankProcess["Times"] = Times
+    SeedBankProcess["Events"] = Events
+    SeedBankProcess.to_csv(str(Plants)+'P'+str(Seeds)+'S_SeedBank_Process.csv', index = False)
+    return(SeedBankProcess)
