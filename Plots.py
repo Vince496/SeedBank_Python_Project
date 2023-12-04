@@ -9,6 +9,10 @@ from numpy import log as ln
 import matplotlib.pyplot as plt
 from statsmodels.distributions.empirical_distribution import ECDF
 import glob
+# The following seed is for replicating the p-values found in the thesis
+# "Análisis de Convergencia en el Coalescente Seed-Bank: 
+#  una aplicación del Método Monte Carlo"
+np.random.seed(1602) 
 
 def SBPlots():
     csv_fil = glob.glob("*.csv")
@@ -40,14 +44,14 @@ def SBPlots():
     
     controltheta = expon(scale = .5).cdf(thetagrid)
     controlgamma = beta(a = 2 , b = 1).cdf(gammagrid)
-    controlfr = invweibull(c=1,scale = 4).cdf(frgrid)
+    controlfr = invweibull(c=1,scale = 4).cdf(frgrid)#In Scipy, the invweibull function and the Fréchet function are synonyms.
     
     gammaks=beta.rvs(a=2,b=1,size=800,loc=0)
     tethaks=expon.rvs(scale=.5,loc=0,size=800)
     frks=invweibull.rvs(c=1,scale=4,loc=0,size=800)
     
     unos = np.ones(1000)
-    gridunos = np.linspace(0,1000,1000)
+    gridunos = np.linspace(0,1000,100000)
     ECTunos = ECDF(unos)
     PECTunos = ECTunos(gridunos)
     
@@ -85,21 +89,21 @@ def SBPlots():
                 PECT = ECT(grid)
                 ax.plot(grid, PECT,color =col ,label= str(file))
             if grafica == 'MTheta':
-                plt.plot(gridunos, PECTunos ,"red",label = "1" )
+                plt.plot(gridunos, PECTunos ,"blue",label = "1" )
                 ax.set_xlim(0,1.2)
                 ax.set_title(r"$M_n(\theta_n)/(2c_1 \log n)$")
             if grafica == 'TTheta':
-                plt.plot(thetagrid, controltheta ,color ="red",label = "T" )
+                plt.plot(thetagrid, controltheta ,color ="blue",label = "T" )
                 ax.set_title(r"$\theta_n \log n$")
                 ax.set_xlim(0,6)
             if grafica == 'NTheta':
-                plt.plot(frgrid, controlfr ,"red",label = "Z" )
+                plt.plot(frgrid, controlfr ,"blue",label = "Z" )
                 ax.set_title(r"$N(\theta_n)/(\log n)$")
             if "TGamma" == grafica:
-                plt.plot(gammagrid, controlgamma ,color ='red',label = "Y" )
+                plt.plot(gammagrid, controlgamma ,color ="blue",label = "Y" )
                 ax.set_title(r"$1/(\frac{n}{2}\gamma_n+1)$")
             if "NGamma" == grafica:
-                plt.plot(gammagrid, controlgamma ,color ='red',label = "Y" )
+                plt.plot(gammagrid, controlgamma ,color ="blue",label = "Y" )
                 ax.set_title(r"$N_n(\gamma_n)/n$")
             ax.legend();
             plt.savefig(grafica+".pdf")
@@ -115,12 +119,11 @@ def SBPlots():
                     PECT = ECT(grid)
                     resta = abs(PECT - beta.cdf(grid,a=2,b=1))
                     ax.plot(grid, resta,color =col, label= str(file))
-                ax.set_title("$N_n(\gamma_n)$/n - Y")
+                ax.set_title(r"$|N_n(\gamma_n)/n - Y|$")
                 ax.set_xlabel('Grid empirical')
-                ax.set_ylabel(r'$X-X_n$')
                 plt.axhline(y = 0,color='black')
                 ax.legend();
-                plt.savefig("Dif " + str(grafica)+".pdf")
+                plt.savefig("Dif" + str(grafica)+".pdf")
             if grafica == 'TGamma':
                 fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(10, 6) )
                 for file in csv_files:
@@ -133,12 +136,11 @@ def SBPlots():
                     PECT = ECT(grid)
                     resta = abs(PECT - beta.cdf(grid,a=2,b=1))
                     ax.plot(grid, resta,color =col, label= str(file))
-                ax.set_title(r"$1/(\frac{n}{2}\gamma_n+1)$ - Y")
+                ax.set_title(r"$|1/(\frac{n}{2}\gamma_n+1) - Y|$")
                 ax.set_xlabel('Grid empirical')
-                ax.set_ylabel(r'$X-X_n$')
                 plt.axhline(y = 0,color='black')
                 ax.legend();
-                plt.savefig("Dif " + str(grafica)+".pdf")
+                plt.savefig("Dif" + str(grafica)+".pdf")
             if grafica == 'TTheta':
                 fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(10, 6) )
                 for file in csv_files:
@@ -151,9 +153,8 @@ def SBPlots():
                     PECT = ECT(grid)
                     resta = abs(PECT - expon.cdf(grid,scale = .5))
                     ax.plot(grid, resta,color =col, label= str(file))
-                ax.set_title(r"$\theta_n \log n$ - T")
+                ax.set_title(r"$|\theta_n \log n - T|$")
                 ax.set_xlabel('Grid empirical')
-                ax.set_ylabel(r'$X-X_n$')
                 plt.axhline(y = 0,color = 'black')
                 ax.legend();
                 plt.savefig("Dif" + str(grafica)+".pdf")
@@ -169,9 +170,8 @@ def SBPlots():
                     PECT = ECT(grid)
                     resta = abs(PECT - invweibull.cdf(grid,scale = 4,c=1))
                     ax.plot(grid, resta,color =col , label= str(file))
-                ax.set_title(r"$N(\theta_n)/(\log n)$ - Z")
+                ax.set_title(r"$|N(\theta_n)/(\log n) - Z$|")
                 ax.set_xlabel('Grid empirical')
-                ax.set_ylabel(r'$X-X_n$')
                 ax.set_xlim(0,100)
                 plt.axhline(y = 0,color ='black')
                 ax.legend();
@@ -191,8 +191,8 @@ def SBPlots():
                     ECT = ECDF(aux)
                     PECT = ECT(grid)
                     ax.plot(grid, PECT,color = col, label=str(file))
-                plt.plot(gridunos, PECTunos ,color ="red",label = "1" )
-                ax.set_xlim(0,1.2)
+                plt.plot(gridunos, PECTunos ,color ="blue",label = "1" )
+                ax.set_xlim(0,max(grid))
                 ax.set_title(r'$\sigma_n/\log \log n$')
                 ax.legend();
                 plt.savefig('TSigma.pdf')
