@@ -9,12 +9,25 @@ from numpy import log as ln
 import matplotlib.pyplot as plt
 from statsmodels.distributions.empirical_distribution import ECDF
 import glob
-# The following seed is for replicating the p-values found in the thesis
-# "Análisis de Convergencia en el Coalescente Seed-Bank: 
-#  una aplicación del Método Monte Carlo"
-np.random.seed(1602) 
+
+
 
 def SBPlots():
+    gammagrid = np.linspace(0,1, 100000)
+    thetagrid = np.linspace(0,12, 100000)
+    frgrid = np.linspace(0,100, 100000)
+    
+    # The following seed is for replicating the p-values found in the thesis
+    # "Análisis de Convergencia en el Coalescente Seed-Bank: 
+    #  una aplicación del Método Monte Carlo"
+    # np.random.seed(1602) 
+    controltheta = expon(scale = .5).cdf(thetagrid)
+    controlgamma = beta(a = 2 , b = 1).cdf(gammagrid)
+    controlfr = invweibull(c=1,scale = 4).cdf(frgrid)#In Scipy, the invweibull function and the Fréchet function are synonyms.
+    
+    gammaks=beta.rvs(a=2,b=1,size=800,loc=0)
+    tethaks=expon.rvs(scale=.5,loc=0,size=800)
+    frks=invweibull.rvs(c=1,scale=4,loc=0,size=800)
     csv_fil = glob.glob("*.csv")
     csv_files = list()
     csv_index = list()
@@ -36,19 +49,6 @@ def SBPlots():
     for i in range(n):
         color = tuple((1 - i/(n-1)) * green + (i/(n-1)) * red)
         rgb.append(color)
-    
-    
-    gammagrid = np.linspace(0,1, 100000)
-    thetagrid = np.linspace(0,12, 100000)
-    frgrid = np.linspace(0,100, 100000)
-    
-    controltheta = expon(scale = .5).cdf(thetagrid)
-    controlgamma = beta(a = 2 , b = 1).cdf(gammagrid)
-    controlfr = invweibull(c=1,scale = 4).cdf(frgrid)#In Scipy, the invweibull function and the Fréchet function are synonyms.
-    
-    gammaks=beta.rvs(a=2,b=1,size=800,loc=0)
-    tethaks=expon.rvs(scale=.5,loc=0,size=800)
-    frks=invweibull.rvs(c=1,scale=4,loc=0,size=800)
     
     unos = np.ones(1000)
     gridunos = np.linspace(0,1000,100000)
@@ -197,4 +197,14 @@ def SBPlots():
                 ax.legend();
                 plt.savefig('TSigma.pdf')
                 plt.show();
-    
+
+
+
+
+
+
+
+
+
+
+
