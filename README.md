@@ -1,8 +1,33 @@
-# Vicente's Undergraduate Tesis project.
-This repository contains the code conceived as the simulation of the SeedBank model from a complete iteration to the code that statistically verifies the theoretical results on the lengths of the seedbank tree. It includes the following:
-  - In the "CSV's" folder, you will find the files used to generate the graphs displayed in the thesis titled "Análisis de Convergencia en el Coalescente Seed-Bank: una aplicación del Método Monte Carlo".
-  - The file "Coalescent_SeedBank" contains the code used to simulate the Kingman phase and the Kingman phase with freezing.
-  - The file "Plots.py" contains the code used to creat the plots as we see on thesis.
-  - The file "Coalescent Seed-Bank_Sigma.py" contains the code used to simulate the complete coalescent tree.
-  - The file "Coalescent_Seed-Bank_Process.py" contains the code used to simulate the complete coalescent tree of a single experiment, saving all the steps.
+# Vicente's Undergraduate Thesis Project: SeedBank Model Simulation and Verification
+
+This repository contains the Python code for my undergraduate thesis titled "Análisis de Convergencia en el Coalescente Seed-Bank: una aplicación del Método Monte Carlo" (Convergence Analysis in the Seed-Bank Coalescent: A Monte Carlo Application). The code simulates the SeedBank model and statistically verifies theoretical results on seedbank tree lengths.
+
+**Project Structure:**
+
+* **CSV Folder:** Stores CSV files used to generate the thesis's graphs. These files contain raw data for visualizations.
+* **Example Plots Folder:** Demonstrates how the `plots.py` script works. It includes plots generated from all CSV files in the `CSV Folder`.
+* **pvalues.csv:** The file contains the p-values shown in my thesis, for your reference, which were obtained with the seed 1602. 
+* **Coalescent_SeedBank.py:** Core script implementing simulations for the Kingman phase and Kingman phase with freezing.
+* **Plots.py:** Generates plots from simulation results. It takes data and creates visualizations for exploration and analysis.
+* **Coalescent_Seed-Bank_Sigma.py:** Simulates the complete coalescent tree, encompassing the entire model (from seed dispersal to coalescence). It builds upon `Coalescent_SeedBank.py`.
+* **Coalescent_Seed-Bank_Process.py:** Simulates a single complete coalescent tree, saving all intermediate steps. This allows detailed tracking of the model's evolution for further analysis or debugging.
+
+**Required Libraries:**
+
+* pandas
+* numpy
+* scipy
+* time
+* tqdm
+* matplotlib
+* statsmodels
+* glob
+
+
+
+
+
+
+
+
 

@@ -6,10 +6,10 @@ def SeedBankCProcess(Plants,Seeds,C_1,C_2):
     i = Plants
     j = Seeds
     
-    Actives = list()
-    Inactives = list()
-    Times = list()
-    Events = list()
+    Actives = list([Plants])
+    Inactives = list([Seeds])
+    Times = list([0])
+    Events = list(["None"])
     
     Check = True
     
